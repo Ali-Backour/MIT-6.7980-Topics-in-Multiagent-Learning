@@ -57,13 +57,16 @@ In the _full-information_ feedback setting the learner observes the entire utili
 
 In the _bandit_ feedback setting, the learner only observes the realized utility of the action actually played. For a randomized strategy, that's the utility of the sampled action, not the expected utility $u^((t))(vx^((t)))$ of the distribution itself. The utilities of unplayed actions, the counterfactuals, stay hidden. Bandit algorithms have to work around this by building a gradient estimator that extracts information about the unseen utilities from the strategy played and the one piece of feedback observed.
 
+While the bandit setting may seem more intuitive or natural as a starting point for learning about learning, the full information case is a simplified model, from which we could build the bandit setting later on. 
+
 Strategy and feedback are two independent choices. The strategy axis is about what the learner plays, either one action or a sample from a full distribution. The feedback axis is about what comes back afterward, either the whole utility function $u^((t))$ including counterfactuals or a single real number. These choices can be combined freely. For example, playing a deterministic action does not imply bandit feedback: the learner can play one action and still observe the entire utility function $u^((t))$.
 
 
 == Notable choices of transformations $Phi$ <sec-regret-transformations>
 The size of the set of transformations $Phi$ considered by the player defines
 a natural notion of how "rational" the agent is. There are several choices of interest for $Phi$ for a normal-form strategy space $cX = Delta(A)$.
-- $Phi =$ set of _all_ stochastic matrices, mapping $Delta(A) -> Delta(A)$. This notion of $Phi$-regret is known under the name _swap regret_. This notion is related to convergence to the set of #lecture-link("correlated", <def-ce>)[correlated equilibria].
+- $Phi =$ set of _all_ stochastic matrices, mapping $Delta(A) -> Delta(A)$. This notion of $Phi$-regret is known under the name _swap regret_. If the swap regret of every player grows sublinearly in $T$, then the average correlated distrubution of play converges to the set of #lecture-link("correlated", <def-ce>)[correlated equilibria].
+
   For example, in rock-paper-scissors, swap regret can compare the actions actually played against replacing every action at once, such as rock with paper, scissors with rock, and paper with scissors.
   In matrix form, $Phi^"swap" = {vx |-> Q vx : Q >= 0, thin vone^top Q = vone^top}$, that is, $Q$ is column-stochastic: column $a$ of $Q$ gives the replacement distribution for action $a$.
 
@@ -83,7 +86,8 @@ a natural notion of how "rational" the agent is. There are several choices of in
       x_s & "otherwise."
     )
   $
-  This is known as _internal regret_.
+  This is known as _internal regret_. Its transformations are action-to-action switches. Each such switch moves all probability mass from one action onto another action.
+
   For example, in rock-paper-scissors, the transformation $phi.alt_("scissors" -> "rock")$ compares the actions actually played against playing rock whenever scissors was played, leaving every other action unchanged.
 
   #align(center, image(
@@ -107,6 +111,8 @@ a natural notion of how "rational" the agent is. There are several choices of in
   #corollary[Informal][
     When all agents in a two-player zero-sum normal-form game play so that their external regret grows sublinearly, their average strategies converge to the set of _Nash equilibria_ of the game.
   ]
+
+ A note about the relationship between Nash equilibria, correlated equilibria and coarse correlated equilibria: Nash equilibria are a subset of correlated equilibria, which are in turn a subset of coarse correlated equilibria. Unlike the set of Nash equilibria, the set of (coarse) correlated equilibria is always a convex polytope, always contains rational solutions when the payoffs are rational, and can be found in polynomial time by linear programming. By contrast, computing a Nash equilibrium is PPAD-hard, the set of Nash equilibria can be nonconvex, and with three or more players a Nash equilibrium may require irrational probabilities. Allowing the players to coordinate enlarges the set of equilibria, which can make ourcomes available that no Nash equilibrium achieves, such as higher total welfare. As a result, the best payoffs achievable at equilibrium can only stay the same or go up.
 
 == An important special case: regret minimization <sec-external-regret>
 
