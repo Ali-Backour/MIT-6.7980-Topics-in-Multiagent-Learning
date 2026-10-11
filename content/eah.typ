@@ -258,27 +258,27 @@ In both examples, the strategy domains are simplexes with efficient separation o
 
 *Deriving payoffs in a polymatrix game*  Let $N_i$ denote the neighbors of player $i$, and for every $j in N_i$ let $matM^(i j)$ be the matrix specifying player $i$'s payoff from the interaction with player $j$. Thus, at an action profile $a$,
 $
-  u_i(a) = sum_(j in N_i) matM^(i j)_(a_i,a_j) .
+  u_i (a) = sum_(j in N_i) matM^(i j)_(a_i,a_j) .
 $
 
 Now suppose that the players use a product distribution $vx = vx_1 ⊗ ... ⊗ vx_n$. By linearity of expectation,
 $
-  u_i(vx) & = bb(E)_(a ~ vx) [sum_(j in N_i) matM^(i j)_(a_i,a_j)]\
+  u_i (vx) & = bb(E)_(a ~ vx) [sum_(j in N_i) matM^(i j)_(a_i,a_j)]\
   & = sum_(j in N_i) vx_i^top matM^(i j) vx_j .
 $
 The important point is that every term involves only the mixed strategies of two neighboring players. We never need to construct the distribution over all joint action profiles.
 
 The same observation lets us compute deviation gains. If player $i$ deviates to a fixed action $a'_i$, then
 $
-  u_i(a'_i, vx_(-i)) = sum_(j in N_i) ve_(a'_i)^top matM^(i j) vx_j .
+  u_i (a'_i, vx_(-i)) = sum_(j in N_i) ve_(a'_i)^top matM^(i j) vx_j ,
 $
-Define
+where $ve_(a'_i)$ denotes the standard basis vector of player i's action space. Define
 $
   vq_i := sum_(j in N_i) matM^(i j) vx_j .
 $
-The expected payoff from deviating to $a'_i$ is $q_(i,a'_i)$, the expected payoff from following $vx_i$ is $vx_i^top vq_i$, and hence the deviation gain is
+The expected payoff from deviating to $a'_i$ is $(vq_i)_(a'_i)$, the expected payoff from following $vx_i$ is $vx_i^top vq_i$, and hence the deviation gain is
 $
-  q_(i,a'_i) - vx_i^top vq_i .
+  (vq_i)_(a'_i) - vx_i^top vq_i .
 $
 Thus, after computing $vq_i$, we obtain the deviation gain of every action of player $i$ by reading the corresponding coordinate of $vq_i$.
 
