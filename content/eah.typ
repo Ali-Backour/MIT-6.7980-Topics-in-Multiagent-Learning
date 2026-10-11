@@ -256,6 +256,34 @@ For concrete examples of the savings from a succinct representation, consider th
 
 In both examples, the strategy domains are simplexes with efficient separation oracles, and expected utilities are multilinear and evaluable in polynomial time in the compact input size. Thus, explicitly constructing the obvious CE/CCE LP can take exponential time, but the Ellipsoid-Against-Hope framework avoids that expansion. The CCE construction above uses only polynomially many product distributions and a small final LP. For CE, one must also enforce deviations conditional on the recommended action; the exact-CE variant of #citet(<jiang2011polynomial>) computes a rational CE with polynomial-size support in polynomial time for these representations. Such a CE is also a CCE. These guarantees concern finding an equilibrium, not optimizing an arbitrary objective over equilibria.
 
+*Deriving payoffs in a polymatrix game*  Let $N_i$ denote the neighbors of player $i$, and for every $j in N_i$ let $matM^(i j)$ be the matrix specifying player $i$'s payoff from the interaction with player $j$. Thus, at an action profile $a$,
+$
+  u_i(a) = sum_(j in N_i) matM^(i j)_(a_i,a_j) .
+$
+
+Now suppose that the players use a product distribution $vx = vx_1 ⊗ ... ⊗ vx_n$. By linearity of expectation,
+$
+  u_i(vx) & = bb(E)_(a ~ vx) [sum_(j in N_i) matM^(i j)_(a_i,a_j)]\
+  & = sum_(j in N_i) vx_i^top matM^(i j) vx_j .
+$
+The important point is that every term involves only the mixed strategies of two neighboring players. We never need to construct the distribution over all joint action profiles.
+
+The same observation lets us compute deviation gains. If player $i$ deviates to a fixed action $a'_i$, then
+$
+  u_i(a'_i, vx_(-i)) = sum_(j in N_i) ve_(a'_i)^top matM^(i j) vx_j .
+$
+Define
+$
+  vq_i := sum_(j in N_i) matM^(i j) vx_j .
+$
+The expected payoff from deviating to $a'_i$ is $q_(i,a'_i)$, the expected payoff from following $vx_i$ is $vx_i^top vq_i$, and hence the deviation gain is
+$
+  q_(i,a'_i) - vx_i^top vq_i .
+$
+Thus, after computing $vq_i$, we obtain the deviation gain of every action of player $i$ by reading the corresponding coordinate of $vq_i$.
+
+Computing $matM^(i j) vx_j$ takes time proportional to the size of the payoff matrix on edge $(i,j)$. Repeating this calculation over all edges takes time polynomial in the $O(|E| m^2)$-size polymatrix representation, rather than in the $m^n$ joint action profiles. Finally, deviation gains are linear in the underlying distribution. If Ellipsoid-Against-Hope returns $macron(vmu) = sum_t alpha_t vmu_t$, where every $vmu_t$ is a product distribution, then the deviation gain under $macron(vmu)$ is the same convex combination of the gains computed under the $vmu_t$.
+
 = Bibliographic remarks
 
 If you are curious to read more, the following papers contains extensions and refinements of the idea of Ellipsoid-Against-Hope.
