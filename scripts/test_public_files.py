@@ -186,12 +186,27 @@ class PublicFilesTests(unittest.TestCase):
                 self.page('<html><body>' + resource + '</body></html>')
                 self.validate()
 
+    def test_interactive_pages_reuse_only_the_shared_course_fonts(self):
+        markup = '<html><style>@font-face {src: url("../assets/fonts/SourceSans3-Regular-web.woff?v=123")}</style></html>'
+        source = self.page(markup)
+        self.validate()
+        destination = self.root / 'output'
+        copy_public_files(self.config, self.root, destination)
+        self.assertEqual((destination / 'interactive/zero_sum_2xn.html').read_text(), markup)
+        with self.assertRaisesRegex(ValueError, 'must embed'):
+            public_files.validate_standalone_slide(source)
+        for url in ('../assets/fonts/other.woff', 'https://example.com/font.woff',
+                    '../assets/fonts/../../private.woff'):
+            self.page(markup.replace('../assets/fonts/SourceSans3-Regular-web.woff?v=123', url))
+            with self.assertRaisesRegex(ValueError, 'must embed'):
+                self.validate()
+
     def test_published_zero_sum_2xn_page_is_standalone(self):
         config = {'interactive_pages': {'zero-sum-2xn': 'interactive/zero_sum_2xn.html'}}
         copied = public_files.copied_files(config)
         self.assertEqual(copied, {**{'assets/course/' + k: v for k, v in COURSE_FIGURES.items()},
                                   'interactive/zero_sum_2xn.html': 'interactive/zero_sum_2xn.html'})
-        public_files.validate_standalone_slide(ROOT / 'interactive/zero_sum_2xn.html')
+        public_files.validate_standalone_slide(ROOT / 'interactive/zero_sum_2xn.html', shared_fonts=True)
 
     def test_note_filename_collision_fails_before_compilation(self):
         self.config['notes'].append({'source': 'other/TOPIC.typ'})
