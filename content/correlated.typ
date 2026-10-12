@@ -420,6 +420,12 @@ Dividing by the probability that $a_i$ is recommended (when positive), this says
 
 However, the remark about computation in imperfect-information sequential games does not apply to CEs. Whether a CE can be computed efficiently in such games is an open question in the field. Some mild evidence suggests that the problem might be hard. Intuitively, the issue is that the number of functions $phi.alt$ in those games might be too large to control.
 
+To see how these sets fit together, consider the smallest interesting case. For two players with two actions each, a correlated strategy $vmu in Delta(A_1 times A_2)$ is four nonnegative probabilities $mu_(a_1, a_2)$ summing to $1$; just as nonnegative triples with a fixed sum form a triangle, these form a tetrahedron whose corners are the four pure outcomes. The figure below shows it for the game $matU_1 = matU_2 = mat(2, 0; 0, 1)$ from the solution to the exercise on marginals of a zero-sum CCE. Its CEs are cut out by $mu_(1, 2), mu_(2, 1) <= 2 mu_(1, 1)$ and $2 mu_(1, 2), 2 mu_(2, 1) <= mu_(2, 2)$. The product distributions $vx_1 ⊗ vx_2$ form a curved, nonconvex surface, while the CEs form a convex polytope that meets it exactly at the three Nash equilibria (in the mixed one, both players play action $1$ with probability $p = q = 1/3$). By the next exercise, this polytope is also the set of CCEs, so, as the exercise on the interior of the CCE polytope predicts, the Nash equilibria lie on its boundary.
+
+#align(center)[
+  #image("figures/correlated/equilibrium_hierarchy.svg")
+]
+
 #exercise[Equivalence of CE and CCE for two-action games][
   Prove that if every player has two actions, the sets of coarse correlated equilibria and correlated equilibria coincide.
 ]
