@@ -322,4 +322,31 @@ The previous result is in fact a direct corollary of the more general connection
   where the second equality follows by linearity of $phi.alt$ and $u_i$. Taking now a maximum over $phi.alt in Phi$, and recognizing the definition of $Phi$-regret on the right-hand side, we obtain the desired inequality.
 ]
 
-Note that @thmce-formal holds for any set $Phi$. The approximate equilibria found this way are sometimes called approximate "$Phi$-equilibria". In the special cases of $Phi =$ all constant transformations, it is clear that the previous result implies convergence to the set of coarse correlated equilibria. For correlated equilibria, we need to convince ourselves that any arbitrary mapping $A -> A$ can be represented via a stochastic matrix. This is indeed the case, by constructing the matrix whose columns indicate what action is assigned to each action in $A$ by the mapping. (You should convince yourself!) Finally, for the case of $Phi =$ all probability mass transportations, it is enough to note that the $Phi$-regret of any stochastic matrix transformations is at most $|A|$ times larger than the worst possible regret of a probability mass transportation between two actions.
+@thmce-formal holds for any set $Phi$, and the approximate equilibria it produces are sometimes called approximate "$Phi$-equilibria". Specializing it to the three choices of $Phi$ from @sec-regret-transformations recovers the three classical notions of regret, together with the equilibrium each one certifies.
+
+#corollary[Specializing @thmce-formal to CCE and CE][
+  Consider the canonical learning setup (@def-canonical-learning) in a finite normal-form game, and write $epsilon_i := (Phi"-Reg"_i^((T))) / T$ for the time-averaged $Phi$-regret of Player $i$. Then the average correlated distribution of play $vmu^((T))$ satisfies the following, where every expectation is taken over $a ~ vmu^((T))$.
+  + _External regret_ ($Phi = Phi^"const"$, the constant maps): for every $a'_i in A_i$,
+    $
+      EE [u_(i)(a'_i, a_(-i))] <= EE [u_(i)(a_i, a_(-i))] + epsilon_i,
+    $
+    so $vmu^((T))$ is an $epsilon_i$-approximate #lecture-link("correlated", <def-cce>)[coarse correlated equilibrium].
+  + _Internal regret_ ($Phi = Phi^"int"$, the probability mass transports): for every $r, s in A_i$,
+    $
+      sum_(a_(-i) in A_(-i)) mu^((T))_(r, a_(-i)) [u_(i)(s, a_(-i)) - u_(i)(r, a_(-i))] <= epsilon_i.
+    $
+    These are the pairwise correlated equilibrium conditions of #lecture-link("correlated", <sec-ce>)[], each relaxed by $epsilon_i$; summing the $|A_i|$ of them that constitute a map $phi.alt : A_i -> A_i$ shows that $vmu^((T))$ is an $(|A_i| epsilon_i)$-approximate correlated equilibrium.
+  + _Swap regret_ ($Phi = Phi^"swap"$, the column-stochastic matrices): for every $phi.alt : A_i -> A_i$,
+    $
+      EE [u_(i)(phi.alt(a_i), a_(-i))] <= EE [u_(i)(a_i, a_(-i))] + epsilon_i,
+    $
+    so $vmu^((T))$ is an $epsilon_i$-approximate #lecture-link("correlated", <def-ce>)[correlated equilibrium].
+] <cor-phi-specialization>
+#proof[
+  Each part evaluates the maximum on the left-hand side of @thmce-formal over the relevant $Phi$, recalling that the theorem applies $phi.alt$ only to deterministic recommendations.
+  + The objective is affine in $xhat$, so its maximum over $Delta(A_i)$ is attained at a vertex, that is, at a pure action $a'_i$.
+  + Applied to a deterministic recommendation, $phi.alt_(r -> s)$ moves all of the mass when $a_i = r$, and leaves the recommendation untouched otherwise, there being no mass on $r$ to move. Only the $a_i = r$ slice of the expectation survives.
+  + The objective is linear in each column separately, and the columns range independently over $Delta(A_i)$, so the maximum is attained with every column at a vertex---that is, at a deterministic map $phi.alt : A_i -> A_i$. This is the same independent-column argument that makes the Blum--Mansour bound an equality in #lecture-link("phi_regret", none)[].
+]
+
+In each case, sublinear $Phi$-regret drives $epsilon_i -> 0$, so $vmu^((T))$ converges to the corresponding equilibrium set, as claimed informally in @thmce-informal and @thmcce-informal.
