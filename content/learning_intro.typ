@@ -28,6 +28,7 @@ This concept goes under the name of _hindsight rationality_:
   looking back at the history of play, they cannot think of any transformation $phi.alt : cX -> cX$ of their
   strategies that, when applied at the whole history of play, would have given strictly better utility to the player.
 ]
+The concept of regret in decision theory goes back to #cite(<savage1951theory>, form: "prose"), and was later applied in repeated play by #cite(<hannan1957approximation>, form: "prose"). The concept of $Phi$-regret was introduced by #cite(<greenwald2003general>, form: "prose"), and it generalizes the notion of regret to arbitrary sets $Phi$ of transformations of the player's actions. 
 
 We have thus arrived at the following formalization.
 
@@ -65,7 +66,7 @@ Strategy and feedback are two independent choices. The strategy axis is about wh
 == Notable choices of transformations $Phi$ <sec-regret-transformations>
 The size of the set of transformations $Phi$ considered by the player defines
 a natural notion of how "rational" the agent is. There are several choices of interest for $Phi$ for a normal-form strategy space $cX = Delta(A)$.
-- $Phi =$ set of _all_ stochastic matrices, mapping $Delta(A) -> Delta(A)$. This notion of $Phi$-regret is known under the name _swap regret_. If the swap regret of every player grows sublinearly in $T$, then the average correlated distrubution of play converges to the set of #lecture-link("correlated", <def-ce>)[correlated equilibria].
+- $Phi =$ set of _all_ stochastic matrices, mapping $Delta(A) -> Delta(A)$. This notion of $Phi$-regret is known under the name _swap regret_. If the swap regret of every player grows sublinearly in $T$, then the average correlated distribution of play converges to the set of #lecture-link("correlated", <def-ce>)[correlated equilibria]. Swap regret was defined by #cite(<blum2007external>, form: "prose") as a strengthening of internal regret. The link between internal regret and correlated equilibria was first shown by #cite(<foster1997calibrated>, form: "prose") using calibrated forecasts, and then by #cite(<hart2000simple>, form: "prose") using a simple regret-based procedure.
 
   For example, in rock-paper-scissors, swap regret can compare the actions actually played against replacing every action at once, such as rock with paper, scissors with rock, and paper with scissors.
   In matrix form, $Phi^"swap" = {vx |-> Q vx : Q >= 0, thin vone^top Q = vone^top}$, that is, $Q$ is column-stochastic: column $a$ of $Q$ gives the replacement distribution for action $a$.
@@ -234,7 +235,7 @@ A point $(vx , vy) in cX times cY$ has zero saddle point gap if and only if it i
 
 == Proof of the minimax theorem <sec-learning-minimax>
 
-The very _existence_ of regret minimizers is a powerful enough fact to imply the minimax theorem!
+The very _existence_ of regret minimizers is a powerful enough fact to imply the minimax theorem! This argument is due to #cite(<freund1999adaptive>, form: "prose"), who proved it for finite games using multiplicative weights. The version below, for general convex compact sets and an arbitrary regret minimizer, follows the same proof.
 
 #theorem[Minimax theorem][
   Let $cX$ and $cY$ be convex compact sets, and let $U$ be a matrix. Suppose that a regret minimizer $cR_cX$ for set $cX$ guaranteeing sublinear regret no matter the sequence of utilities can be constructed. Then,
@@ -329,3 +330,7 @@ The previous result is in fact a direct corollary of the more general connection
 ]
 
 Note that @thmce-formal holds for any set $Phi$. The approximate equilibria found this way are sometimes called approximate "$Phi$-equilibria". In the special cases of $Phi =$ all constant transformations, it is clear that the previous result implies convergence to the set of coarse correlated equilibria. For correlated equilibria, we need to convince ourselves that any arbitrary mapping $A -> A$ can be represented via a stochastic matrix. This is indeed the case, by constructing the matrix whose columns indicate what action is assigned to each action in $A$ by the mapping. (You should convince yourself!) Finally, for the case of $Phi =$ all probability mass transportations, it is enough to note that the $Phi$-regret of any stochastic matrix transformations is at most $|A|$ times larger than the worst possible regret of a probability mass transportation between two actions.
+
+= Bibliography for this lecture
+
+#lec_bibliography("meta/refs.bib", title: none)
