@@ -108,6 +108,37 @@ a natural notion of how "rational" the agent is. There are several choices of in
     When all agents in a two-player zero-sum normal-form game play so that their external regret grows sublinearly, their average strategies converge to the set of _Nash equilibria_ of the game.
   ]
 
+#exercise[Comparing external, internal, and swap regret][
+  Fix a finite action set $A$, and consider a learner that plays $vx^((1)), ..., vx^((T)) in Delta(A)$ against linear utilities $u^((1)), ..., u^((T))$. For $a, b in A$ write
+  $
+    G_(a -> b) := sum_(t=1)^T x_a^((t)) (u^((t))(b) - u^((t))(a))
+  $
+  for the total gain the learner would have made by rerouting onto $b$ whatever probability mass it placed on $a$, and let $"Reg"^((T))$, $"IntReg"^((T))$ and $"SwapReg"^((T))$ denote its external, internal and swap regret, taking $phi.alt_(a -> a)$ to be the identity.
+  + Show that swap regret bounds both of the others: $"IntReg"^((T)) <= "SwapReg"^((T))$ and $"Reg"^((T)) <= "SwapReg"^((T))$.
+  + Show that $"Reg"^((T)) <= |A| dot "IntReg"^((T))$.
+  + Is there a direct ordering between internal and external regret?
+] <ex-regret-comparison>
+
+#solution[
+  All three regrets are readings of the single array $(G_(a -> b))_(a, b in A)$:
+  $
+    "Reg"^((T)) &= max_(b in A) sum_(a in A) G_(a -> b), \
+    "IntReg"^((T)) &= max_(a, b in A) G_(a -> b), \
+    "SwapReg"^((T)) &= sum_(a in A) max_(b in A) G_(a -> b).
+  $
+  For the first, $u^((t))$ is linear, so the maximum over $hat(vx) in Delta(A)$ defining external regret is attained at a pure action $b$; since $sum_(a) x_a^((t)) = 1$,
+  $
+    u^((t))(b) - u^((t))(vx^((t))) = sum_(a in A) x_a^((t)) (u^((t))(b) - u^((t))(a)).
+  $
+  For the second, $phi.alt_(a -> b)$ leaves every coordinate but $a$ and $b$ alone, so $u^((t))(phi.alt_(a -> b)(vx^((t)))) - u^((t))(vx^((t))) = x_a^((t)) (u^((t))(b) - u^((t))(a))$, and summing over $t$ gives $G_(a -> b)$. For the third, a column-stochastic $Q$ gives $u^((t))(Q vx^((t))) - u^((t))(vx^((t))) = sum_(a) sum_(b) Q_(b a) x_a^((t)) (u^((t))(b) - u^((t))(a))$, using $sum_(b) Q_(b a) = 1$; the columns of $Q$ are chosen independently from $Delta(A)$, so each one picks a $b$ maximizing $G_(a -> b)$.
+
+  + Because $phi.alt_(a -> a)$ is the identity, $G_(a -> a) = 0$, so $max_(b) G_(a -> b) >= 0$ for every $a$. A sum of nonnegative terms is at least any one of them, so $"SwapReg"^((T)) >= max_(a) max_(b) G_(a -> b) = "IntReg"^((T))$. Letting $b^star$ attain the external maximum, $"SwapReg"^((T)) >= sum_(a) G_(a -> b^star) = "Reg"^((T))$.
+  + Every $G_(a -> b)$ is at most $"IntReg"^((T))$, and the inner sum has $|A|$ terms, so $"Reg"^((T)) = max_(b) sum_(a) G_(a -> b) <= |A| dot "IntReg"^((T))$.
+  + No, as soon as $|A| >= 3$: neither quantity dominates the other. Taking $T = 1$ and $vx^((1))$ uniform on $A without {b}$ for a fixed action $b$, with $u^((1))(b) = 1$ and $u^((1))(a) = 0$ otherwise, gives $G_(a -> b) = 1 \/ (|A| - 1)$ for each $a != b$ and $G = 0$ elsewhere, so $"Reg"^((T)) = 1$ exceeds $"IntReg"^((T)) = 1 \/ (|A| - 1)$. Conversely, let $A = {1, 2, 3}$ and alternate $vx^((t)) = ve_1$ with $u^((t)) = (0, 1, 0)$ on odd rounds and $vx^((t)) = ve_3$ with $u^((t)) = (0, 0, 1)$ on even ones. Then $G_(1 -> 2) = T \/ 2$ while $sum_(a) G_(a -> b) <= 0$ for every $b$, so internal regret is linear in $T$ and external regret is $0$.
+
+    Both examples need at least three actions: for $|A| = 2$ the two expressions above reduce to $"IntReg"^((T)) = max{0, "Reg"^((T))}$. What survives in general is the one-way implication from part 2 --- sublinear internal regret forces sublinear external regret, and the alternating example shows the converse fails.
+]
+
 == An important special case: regret minimization <sec-external-regret>
 
 The special case where $Phi$ is chosen to be the set of constant transformations is so important that it warrants its own special definition and notation.
