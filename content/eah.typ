@@ -392,10 +392,12 @@ This completes the sketch of the proof of the correctness of the Ellipsoid-Again
   marginals gives a different joint distribution:
 
   #table(
-    columns: 5, align: center, inset: .4em, stroke: none,
-    table.header([Distribution], [$(L,L)$], [$(L,R)$], [$(R,L)$], [$(R,R)$]),
-    [$macron(vmu)$], [$3/4$], [$0$], [$0$], [$1/4$],
-    [$macron(vmu)_1 ⊗ macron(vmu)_2$], [$9/16$], [$3/16$], [$3/16$], [$1/16$],
+    columns: 3, align: center, inset: .4em, stroke: none,
+    table.header([Profile], [$macron(vmu)$], [$macron(vmu)_1 ⊗ macron(vmu)_2$]),
+    [$(L,L)$], [$3/4$], [$9/16$],
+    [$(L,R)$], [$0$], [$3/16$],
+    [$(R,L)$], [$0$], [$3/16$],
+    [$(R,R)$], [$1/4$], [$1/16$],
   )
 
   #block(breakable: false)[
