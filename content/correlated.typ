@@ -105,6 +105,8 @@ $
 
 For a fixed $vx$, the largest feasible $v$ is exactly $min_(a_2 in A_2) vx^top matU_1 ve_(a_2)$, so the optimal value of this linear program is the maxmin value, and the $vx$-part of any optimal solution is a maxmin strategy. The program has one constraint per action of Player 2, besides the simplex constraints. We can use any linear programming solver to find such a solution. The #lecture-link("learning_intro", <sec-learning-zero-sum>)[self-play construction] gives more scalable methods to compute maxmin strategies from repeated play.
 
+You can solve your own $2 times n$ zero-sum games, and watch the lower envelope, both players' optimal strategies, and the linear programming certificate change as you edit the payoffs, in the #interactive-link("zero_sum_2xn")[interactive explorer].
+
 *Connection with linear programming*  It is worth pausing for a moment to appreciate some historical context. We started the proof by assuming von Neumann's minimax theorem, which we justified as a consequence of linear programming duality. However, historically, von Neumann did not have the luxury of linear programming to prove his theorem.
 
 - The proof of von Neumann's minimax theorem essentially hides an optimization duality argument. Indeed, we have the following, where, by the same argument as above, each program needs only one constraint per pure action of the opponent:
