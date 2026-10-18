@@ -66,18 +66,8 @@ $
 
 If we don't  know the supports of some Nash equilibrium, we can enumerate over all possible pairs of supports $\( S_R \, S_C \) subset.eq \[ m \] times \[ n \]$, and try to find a feasible solution of the corresponding linear program. As a Nash equilibrium always exists, at least one of these linear programs will be feasible. So the overall running time will be $2^(m + n) dot.op op("poly") \( \| R \| \, \| C \| \)$, where the $2^(m + n)$ factor is due to trying all possible pairs of supports, and the polynomial factor in the descriptions of the matrices $R$ and $C$ is determined by the complexity of solving a linear program. The exponential factor is not merely an artifact of enumerating in an unlucky order: Savani and von Stengel~#citep(<SavaniVS06>) construct $d times 2 d$ games in which about $0.7 times 1.66^d$ supports must be inspected before an equilibrium is found, on average over a random permutation of one player's actions.
 
-#pseudocode-list(
-  max-width: true,
-  numbered-title: [Support enumeration for two-player games],
-  caption: [Each guess of supports costs one linear program; the first feasible one yields a Nash equilibrium.],
-)[
-  + *For* every pair of nonempty supports $S_R subset.eq [m]$ and $S_C subset.eq [n]$:
-    + Solve the linear program above for $(S_R, S_C)$.
-    + *If* it is feasible, *return* its solution $(vx, vy)$.
-]
-
 #example[Support enumeration in a $3 times 2$ game][
-  Consider the following game, taken from #citet(<vonStengel2007equilibrium>). On the left are the payoffs (Row's first). On the right, we plot Row's expected payoff $ve_i^T R vy$ for each action $i$ as a function of $y_2$, the probability that Column plays action $2$. The bold upper envelope marks Row's best responses.
+  Consider the following game, taken from von Stengel~#citep(<vonStengel07:Equilibrium>). On the left are the payoffs (Row's first). On the right, we plot Row's expected payoff $ve_i^T R vy$ for each action $i$ as a function of $y_2$, the probability that Column plays action $2$. The bold upper envelope marks Row's best responses.
 
   #align(center)[
     #image(
@@ -87,9 +77,7 @@ If we don't  know the supports of some Nash equilibrium, we can enumerate over a
     )
   ]
 
-  First, guess $S_R = {2, 3}$ and $S_C = {1, 2}$. The constraints for $i = 2$ and $i = 3$ require both actions to be best responses to $vy$, i.e., $ve_2^T R vy = ve_3^T R vy >= ve_1^T R vy$. Since $y_1 = 1 - y_2$, this reads $2 + 3 y_2 = 6 y_2 >= 3$. So $y_2 = 2/3$, and Row's actions $2$ and $3$ both earn $4 > 3$. Similarly, the constraints for Column require $vx^T C ve_1 = vx^T C ve_2$ with $x_1 = 0$, i.e., $2 x_2 + 3 x_3 = 6 x_2 + x_3$. Together with $x_2 + x_3 = 1$, this gives $vx = (0, 1/3, 2/3)$. So the linear program is feasible, and $(vx, vy) = ((0, 1/3, 2/3), (1/3, 2/3))$ is a Nash equilibrium.
-
-  Next, guess $S_R = {1, 3}$ and $S_C = {1, 2}$. The constraints for Row now require $3 = 6 y_2 >= 2 + 3 y_2$. The equality forces $y_2 = 1/2$, but then action $2$ earns $7/2 > 3$, so the linear program is infeasible. As the hollow marker in the plot shows, actions $1$ and $3$ only tie where neither is a best response. The constraints over all $k in [m]$, and not just $k in S_R$, are what rule out this guess.
+  At each value of $y_2$, the actions whose lines lie on the upper envelope are exactly Row's best responses to $vy$. The constraints for Row in the linear program require every action in $S_R$ to be a best response, so a support $S_R$ is possible only at values of $y_2$ where all of its actions lie on the envelope. The envelope follows action $1$ for $y_2 <= 1/3$, action $2$ for $1/3 <= y_2 <= 2/3$, and action $3$ for $y_2 >= 2/3$. Hence Row can mix only at the two kinks: over ${1, 2}$ at $y_2 = 1/3$, and over ${2, 3}$ at $y_2 = 2/3$. The lines of actions $1$ and $3$ also cross, at $y_2 = 1/2$ (the hollow marker), but below the envelope: there, action $2$ earns $7/2$, while actions $1$ and $3$ earn only $3$. Neither action is a best response, so no pair of supports with $S_R = {1, 3}$ is feasible. This is why the constraints compare the actions in $S_R$ with every action $k in [m]$, and not only with the other actions in $S_R$.
 
   Running through all $(2^3 - 1)(2^2 - 1) = 21$ pairs of supports, exactly three linear programs are feasible. They yield the three Nash equilibria of the game, which are the left endpoint and the two kinks of the envelope in the plot:
 
