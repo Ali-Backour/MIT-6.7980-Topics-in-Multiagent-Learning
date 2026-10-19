@@ -422,7 +422,7 @@ The following table summarizes these results.
   [Two players, $eps = 1/3 + delta$ for any constant $delta > 0$], [Polynomial time~#citep(<DeligkasFM23:OneThird>)], [--],
   [Two players, any constant $eps > 0$], [$s^(O(log s \/ eps^2))$~#citep(<LMM03>)], [For some constant $eps_0 > 0$ and every $eps <= eps_0$: time $N^(log^(1 - o(1)) N)$ under ETH for PPAD~#citep(<Rubinstein16:Settling>)],
   [Two players, $eps = N^(-c)$], [Lemke-Howson, exponential in the worst case (@sec-lemke-howson)], [PPAD-complete for some constant $c > 0$~#citep(<chen2009settling>)],
-  [$n >= 3$ players, exact], [$B dot.op L dot.op (n k)^(O(n k))$ to $B$ bits (Section~#ref(label("sec:support enumeration for n players"), supplement: none))], [FIXP-complete~#citep(<etessami2010fixedpoints>)],
+  [$n >= 3$ players, exact], [Solving polynomial systems over the reals (algebraic representation)], [FIXP-complete~#citep(<etessami2010fixedpoints>)],
   [$n >= 3$ players, normal form, any constant $eps > 0$], [Quasi-polynomial in $s = n k^n$~#citep(<BabichenkoBP14:Simple>)], [Two-player lower bounds apply],
   [Polymatrix, two actions, constant $eps$], [--], [PPAD-complete for some constant $eps > 0$~#citep(<Rubinstein18:Inapproximability>)],
   )
