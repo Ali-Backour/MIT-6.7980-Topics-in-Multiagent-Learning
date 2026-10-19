@@ -15,7 +15,7 @@ The standard representation of an imperfect-information extensive-form game is t
 #example[
   As a running example, we use _Kuhn poker_, a two-player poker variant played with a deck of only three cards: Jack, Queen, and King #citep(<Kuhn50:Simplified>). Despite its simplicity, the game already captures central aspects of deceptive behavior such as _bluffing_ and _underbidding_.
 
-  #paragraph-marker(shape: "triangle-up") The rules of Kuhn poker~~ At the beginning of the game, each player contributes a \$1 ante to the pot. The deck is shuffled, each player is privately dealt one card, and the third card is set aside. Each of the six possible deals is equally likely. We abbreviate the cards as $upsans("J")$, $upsans("Q")$, and $upsans("K")$; for example, $upsans("JK")$ means that Player 1 receives a Jack and Player 2 receives a King.
+  #paragraph-marker(shape: "triangle-up") *The rules of Kuhn poker*~~ At the beginning of the game, each player contributes a \$1 ante to the pot. The deck is shuffled, each player is privately dealt one card, and the third card is set aside. Each of the six possible deals is equally likely. We abbreviate the cards as $upsans("J")$, $upsans("Q")$, and $upsans("K")$; for example, $upsans("JK")$ means that Player 1 receives a Jack and Player 2 receives a King.
 
   After the cards are dealt, a single betting round takes place:
 
