@@ -151,7 +151,7 @@ If the event of reaching $j$ and choosing $a$ has positive probability under the
 This is one reason CFR works with counterfactual values. Even if your strategy in @ex-cfr-values never chooses $sans("enter")$, the Q-values at $j$ remain 10 and 4, and the counterfactual values remain 2 and 0.8. A full-tree CFR update can therefore evaluate the actions at $j$ even when your current strategy never reaches it.
 
 *Connection to normal form* In a one-shot normal-form game, player $i$'s decision point is reached with probability 1, so there is no earlier own-reach probability to remove. Hence the Q-value and counterfactual value both reduce to
-$ q_(i)(a_i) := EE_(a_(-i) sim x_(-i))[u_i(a_i, a_(-i))]. $
+$ q_(i)(a_i) := EE_(a_(-i) ~ x_(-i))[u_i(a_i, a_(-i))]. $
 
 We fix player $i$'s action and average over the opponents' actions. When $a_i$ has positive probability under player $i$'s current strategy, this is also the ordinary conditional expectation of player $i$'s payoff given that player $i$ chooses $a_i$: by independence, conditioning on $a_i$ leaves the distribution of $a_(-i)$ unchanged. The formula above remains meaningful even when player $i$ assigns zero probability to $a_i$, in which case that ordinary conditional expectation is undefined.
 == Pseudocode for CFR
