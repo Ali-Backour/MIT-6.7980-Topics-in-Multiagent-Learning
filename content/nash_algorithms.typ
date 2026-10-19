@@ -457,6 +457,47 @@ We make some final remarks about the Lemke-Howson algorithm.
 - The number of steps really can be exponential. Savani and von Stengel~#citep(<SavaniVS06>) construct $d times d$ games in which the length of _every_ main path is at least proportional to $phi^(3 d \/ 4) approx 1.43^d$, where $phi approx 1.618$ is the golden ratio. The only freedom the algorithm has is the choice of the special action, since the pivoting rule itself is forced once that choice is made; the lower bound holds no matter which action is chosen.
 - There are generalizations of the Lemke-Howson algorithm for multi-player games working with manifolds instead of polytopes. See Rosenmüller~#citep(<Rosenmuller71>) and Wilson~#citep(<Wilson71>).
 
+= Further reading: approximate equilibria and $n$-player games <sec-lit-approx-nplayer>
+
+The algorithms in this lecture compute exact equilibria and take exponential time in the worst case. This section briefly summarizes the main known results when we relax the goal to approximate equilibria, and when the game has $n >= 3$ players. Payoffs lie in $[0, 1]$, and $eps$ always bounds a gain in payoff, not a distance between strategies: in an _$eps$-approximate Nash equilibrium_ (#lecture-link("correlated", <def-eps-nash>)[]), no player can increase their expected payoff by more than $eps$ through a unilateral deviation. Such a profile need not be close to any exact Nash equilibrium. We write $s$ for the encoding size of the game.
+
+== Two-player games <sec-lit-approx-two-player>
+
+*Polynomial time for large constant $eps$.* A simple algorithm finds a $1/2$-approximate equilibrium~#citep(<DaskalakisMP09:Note>). Row picks any action $i$, Column best responds to $i$ with an action $j$, and Row best responds to $j$ with an action $k$. Row then mixes $i$ and $k$ with probability $1/2$ each, and Column plays $j$. Row's best response to $j$ is $k$, which already receives half the probability, so Row can gain at most $1/2 (R_(k j) - R_(i j)) <= 1/2$. Column's action $j$ is a best response to $i$, so Column can gain at most $1/2$, coming from the half of Row's mixture on $k$. The best guarantee known today is due to Deligkas, Fasoulakis, and Markakis~#citep(<DeligkasFM23:OneThird>): for every constant $delta > 0$, a $(1/3 + delta)$-approximate equilibrium can be computed in polynomial time.
+
+*Quasi-polynomial time for every constant $eps$.* For every constant $eps > 0$, the sampling algorithm of Lipton, Markakis, and Mehta~#citep(<LMM03>), based on #lecture-link("correlated", <thm-lmm>)[], computes an $eps$-approximate equilibrium in time $s^(O(log s \/ eps^2))$.
+
+*Lower bounds.* Chen, Deng, and Teng~#citep(<chen2009settling>) showed that there is a constant $c > 0$ such that computing an $N^(-c)$-approximate equilibrium of an $N times N$ game is PPAD-complete. Hence, unless every problem in PPAD can be solved in polynomial time, no algorithm runs in time polynomial in both $s$ and $1 \/ eps$ (see #lecture-link("tfnp", <sec-ppad>)[]). In this regime, the best known algorithms, such as Lemke-Howson (@sec-lemke-howson), take exponential time in the worst case. For constant $eps$, Rubinstein~#citep(<Rubinstein16:Settling>) assumed the _Exponential Time Hypothesis for PPAD_: End-of-Line requires exponential time. Under this assumption, there is a constant $eps_0 > 0$ such that, for every $eps <= eps_0$, computing an $eps$-approximate equilibrium of an $N times N$ game requires time $N^(log^(1 - o(1)) N)$. So the sampling algorithm is essentially optimal for $eps <= eps_0$. The value of $eps_0$ is not explicit, and whether some constant $eps$ in between $eps_0$ and $1/3$ admits a polynomial-time algorithm is open.
+
+== Games with $n >= 3$ players <sec-lit-n-player>
+
+Let each player have $k$ actions, so that a game in normal form has size $s = n k^n$. Adding players who have a single action turns a two-player game into an $n$-player game, without changing which profiles are approximate equilibria. So the two-player lower bounds above also hold for every $n >= 3$.
+
+*Exact equilibria.* With $n >= 3$ players, equilibria can be #lecture-link("correlated", <sec-irrational-equilibria>)[irrational], so an exact equilibrium can only be described algebraically. Etessami and Yannakakis~#citep(<etessami2010fixedpoints>) showed that computing an exact equilibrium of a game with three or more players is complete for the class FIXP, which captures exact fixed points of algebraic functions. The support enumeration algorithm of Section~#ref(label("sec:support enumeration for n players"), supplement: none) approximates an equilibrium to $B$ bits of accuracy per variable in time $B dot.op L dot.op (n k)^(O(n k))$.
+
+*Approximate equilibria.* For constant $eps$, the sampling idea of Lipton, Markakis, and Mehta extends to many players. Babichenko, Barman, and Peretz~#citep(<BabichenkoBP14:Simple>) showed that, for every constant $eps > 0$, every $n$-player game with $k$ actions per player has an $eps$-approximate equilibrium in which each player's strategy is uniform over a multiset of actions whose size is polylogarithmic in $n$ and $k$. Enumerating all such strategy profiles takes time quasi-polynomial in $s$.
+
+*Succinct games.* With many players, games are usually described succinctly, so the size $n k^n$ of the normal form is exponential in the size of the description. In a _polymatrix_ game, for example, each player's payoff is a sum of two-player payoffs with a few neighbors. Rubinstein~#citep(<Rubinstein18:Inapproximability>) showed that there is a constant $eps > 0$ such that computing an $eps$-approximate equilibrium is PPAD-complete, even in polymatrix games in which every player has two actions and at most three neighbors.
+
+The following table summarizes these results.
+
+#block(breakable: false, align(center, {
+  set par(justify: false)
+  table(
+  columns: 3,
+  align: left + horizon,
+  inset: 5pt,
+  stroke: .2mm,
+  table.header[*Setting*][*Best known algorithm*][*Hardness*],
+  [Two players, $eps = 1/3 + delta$ for any constant $delta > 0$], [Polynomial time~#citep(<DeligkasFM23:OneThird>)], [--],
+  [Two players, any constant $eps > 0$], [$s^(O(log s \/ eps^2))$~#citep(<LMM03>)], [For some constant $eps_0 > 0$ and every $eps <= eps_0$: time $N^(log^(1 - o(1)) N)$ under ETH for PPAD~#citep(<Rubinstein16:Settling>)],
+  [Two players, $eps = N^(-c)$], [Lemke-Howson, exponential in the worst case (@sec-lemke-howson)], [PPAD-complete for some constant $c > 0$~#citep(<chen2009settling>)],
+  [$n >= 3$ players, exact], [Solving polynomial systems over the reals (algebraic representation)], [FIXP-complete~#citep(<etessami2010fixedpoints>)],
+  [$n >= 3$ players, normal form, any constant $eps > 0$], [Quasi-polynomial in $s = n k^n$~#citep(<BabichenkoBP14:Simple>)], [Two-player lower bounds apply],
+  [Polymatrix, two actions, constant $eps$], [--], [PPAD-complete for some constant $eps > 0$~#citep(<Rubinstein18:Inapproximability>)],
+  )
+}))
+
 = Bibliography for this lecture
 
 #lec_bibliography("meta/refs.bib", title: none)
